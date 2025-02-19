@@ -1,0 +1,25 @@
+
+.box {
+  display: flex;
+  gap: 10px; 
+}
+.btnUpdate:hover{
+ background-color: rgba(184, 184, 149, 0.669);
+}
+button {
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  padding: 5px 8px; 
+  border: none;
+  border-radius: 5px;
+  transition: all ease-in 0.3s;
+}
+
+button i {
+  font-size: 18px;
+}
+
+button:hover{
+  background-color: brown;
+}
