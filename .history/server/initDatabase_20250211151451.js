@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { sequelizeWithDB, sequelizeWithoutDB } from './src/database/index.js';
+// Здесь предполагается, что ./config/database.js экспортирует подключение с именем базы (если оно уже создано)
 
 dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
