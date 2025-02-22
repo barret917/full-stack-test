@@ -2,7 +2,7 @@ import React from 'react';
 import { DynamicForm } from '@shared/ui/FormDynamic';
 import { orderFormFields, orderFormTitles } from '../lib/constants';
 
-const OrderForm = ({ mode, orderData, setOrderData, onSubmit }) => {
+const OrderForm = ({ mode, orderData, setOrderData, onSubmit,onForMount}) => {
   const fields = orderFormFields[mode];
   const title = orderFormTitles[mode];
 
@@ -14,6 +14,7 @@ const OrderForm = ({ mode, orderData, setOrderData, onSubmit }) => {
         formData={orderData}
         setFormData={setOrderData}
         onSubmit={onSubmit}
+        onForMount={onForMount}
       />
     </div>
   );

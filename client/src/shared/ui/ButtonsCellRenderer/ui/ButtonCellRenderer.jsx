@@ -1,15 +1,17 @@
 import 'font-awesome/css/font-awesome.min.css';
 import styles from './ButtonCellRenderer.module.css';
+import { Button } from 'antd';
 
 export const ButtonCellRenderer = ({ data, handleUpdate, handleDelete }) => {
   return (
     <div className={styles.box}>
-      <button className={styles.btnUpdate} disabled={true} onClick={() => handleUpdate(data)}>
+      <Button size='small' disabled={true}>
         <i className="fa fa-edit"></i>
-      </button>
-      <button disabled={true} onClick={() => handleDelete(data)}>
+      </Button>
+
+      <Button size='small' disabled={true}>
         <i className="fa fa-trash"></i>
-      </button>
+      </Button>
     </div>
   );
 };

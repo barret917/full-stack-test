@@ -38,6 +38,15 @@ export const getAll = async (req, res) => {
 export const postCreateCourier = async (req, res) => {
   try {
     const { name, age, city, nationality, transport, phone, email } = req.body;
+
+    const existingCourier = await Order.findOne({
+      where: { email },
+    });
+    if (existingCourier) {
+      return res
+        .status(409)
+        .json({ message: 'Курьер с таким email уже существует' });
+    }
     const newCourier = await Courier.create({
       name,
       age,

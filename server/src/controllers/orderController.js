@@ -49,6 +49,15 @@ export const postOrder = async (req, res) => {
       description,
     } = req.body;
 
+    const existingOrder = await Order.findOne({
+      where: { recipient_email },
+    });
+    if (existingOrder) {
+      return res
+        .status(409)
+        .json({ message: 'Заказ с таким email уже существует' });
+    }
+
     const newOrder = await Order.create({
       order_name,
       recipient_name,
@@ -73,7 +82,6 @@ export const postOrder = async (req, res) => {
 
 export const updateOrder = async (req, res) => {
   try {
-    
     const {
       order_name,
       recipient_name,
@@ -142,7 +150,7 @@ export const deleteOrder = async (req, res) => {
     const email = req.body.email;
 
     if (!email) {
-      return res.status(400).send("Email обязателен");
+      return res.status(400).send('Email обязателен');
     }
 
     const [result] = await sequelize.query(
@@ -154,17 +162,17 @@ export const deleteOrder = async (req, res) => {
     );
 
     if (!result || result.length === 0) {
-      return res.status(404).send("Заказ с таким email не найден");
+      return res.status(404).send('Заказ с таким email не найден');
     }
 
-    return res.json({ message: "Заказ удалён" });
+    return res.json({ message: 'Заказ удалён' });
   } catch (err) {
-    
     console.error('Ошибка при удалении заказа:', err);
-    res.status(500).json({ message: 'Ошибка при удалении заказа', error: err.message });
+    res
+      .status(500)
+      .json({ message: 'Ошибка при удалении заказа', error: err.message });
   }
 };
-
 
 export const getTotalCostByCity = async (req, res) => {
   try {

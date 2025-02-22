@@ -80,8 +80,8 @@ export const orderFormFields = {
     { name: 'distance', label: 'Расстояние', type: 'number', required: true },
     { name: 'price', label: 'Стоимость', type: 'number', required: true },
     { name: 'region', label: 'Регион', type: 'text', required: true },
-    { name: 'city', label: 'Город', type: 'text', required: true },
-    { name: 'description', label: 'Описание', type: 'text', required: false },
+    { name: 'city', label: 'Город', type: 'text', required: true},
+    { name: 'description', label: 'Описание', type: 'text', required: false }
   ],
 };
 

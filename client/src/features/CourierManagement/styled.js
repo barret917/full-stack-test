@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button } from 'antd';
 
 export const Container = styled.div`
   max-width: 600px;
@@ -30,4 +31,9 @@ export const FormContainer = styled.div`
   border-radius: 5px;
   width: 100%;
   box-sizing: border-box;
+`;
+export const ButtonChoiseForm = styled(Button).attrs({
+  type: 'primary',
+})`
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 `;

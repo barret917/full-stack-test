@@ -1,20 +1,22 @@
 import React, { useEffect, useState, useContext } from 'react';
 import OrderForm from './OrderForm';
-import { Button } from '@shared/ui/Button';
 import { emptyOrder } from '../lib/constants';
 import {
   useCreateOrder,
   useUpdateOrder,
   useDeleteOrder,
 } from '@entities/Orders/hooks';
-import { Container, Title, ButtonContainer, FormContainer } from '../styled';
+import { Container, Title, ButtonContainer, FormContainer,ButtonChoiseForm} from '../styled';
 import { RefreshContext } from '@shared/ui/Context/RefreshContext';
+import { Modal,Button } from 'antd';
 
 export const OrderManagement = ({ gridRef }) => {
   const [formVisible, setFormVisible] = useState(false);
   const [mode, setMode] = useState('add');
   const [orderData, setOrderData] = useState(emptyOrder);
   const { refreshCount } = useContext(RefreshContext);
+  const [formInstance, setFormInstance] = useState(null);
+ 
 
   const openForm = (newMode) => {
     setMode(newMode);
@@ -28,6 +30,9 @@ export const OrderManagement = ({ gridRef }) => {
   const closeForm = () => {
     setFormVisible(false);
     setOrderData(emptyOrder);
+    if (formInstance) {
+      formInstance.resetFields()
+    }
   };
 
   const handleFormSubmit = async (data) => {
@@ -55,7 +60,6 @@ export const OrderManagement = ({ gridRef }) => {
     }
   };
 
-  
   useEffect(() => {
     if (gridRef?.current?.api) {
       gridRef.current.api.refreshInfiniteCache();
@@ -66,25 +70,28 @@ export const OrderManagement = ({ gridRef }) => {
     <Container>
       <Title>Управление заказами</Title>
       <ButtonContainer>
-        <Button onClick={handleFormAdd}>Добавить</Button>
-        <Button onClick={handleFormUpdate}>Редактировать</Button>
-        <Button onClick={handleFormDelete}>Удалить</Button>
-        {formVisible && (
-          <Button onClick={closeForm} variant="secondary">
-            Очистить
-          </Button>
-        )}
+        <ButtonChoiseForm onClick={handleFormAdd}>Добавить</ButtonChoiseForm>
+        <ButtonChoiseForm onClick={handleFormUpdate}>
+          Редактировать
+        </ButtonChoiseForm>
+        <ButtonChoiseForm onClick={handleFormDelete}>Удалить</ButtonChoiseForm>
       </ButtonContainer>
-      {formVisible && (
+      <Modal
+        open={formVisible}
+        onCancel={closeForm}
+        footer={null}
+        forceRender
+        >
         <FormContainer>
           <OrderForm
             mode={mode}
             orderData={orderData}
             setOrderData={setOrderData}
             onSubmit={handleFormSubmit}
+            onForMount={setFormInstance}
           />
         </FormContainer>
-      )}
+      </Modal>
     </Container>
   );
 };

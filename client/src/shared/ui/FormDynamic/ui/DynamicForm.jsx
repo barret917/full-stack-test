@@ -1,33 +1,73 @@
-import React from 'react';
-import { Form, FormGroup, Label, Input, Button } from '../styled';
+import React, { useEffect } from 'react';
+import {
+  Form,
+  FormItem,
+  Input,
+  Button,
+  ButtonWrapper,
+ 
+} from '../styled';
 
-export const DynamicForm = ({ fields, formData, setFormData, onSubmit }) => {
+export const DynamicForm = ({
+  fields,
+  formData,
+  setFormData,
+  onSubmit,
+  onForMount,
+  
+}) => {
+  const [form] = Form.useForm();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     onSubmit(formData);
   };
 
+  useEffect(() => {
+    form.setFieldsValue(formData); 
+  }, [formData, form]);
+
+  useEffect(() => {
+    if (onForMount) {
+      onForMount(form);
+     
+    }
+  }, [form, onForMount]);
+
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form layout="vertical" onFinish={handleSubmit} form={form}>
       {fields.map((field) => (
-        <FormGroup key={field.name}>
-          <Label>{field.label}:</Label>
+        <FormItem
+          key={field.name}
+          label={field.label}
+          name={field.name}
+          rules={[
+            {
+              required: field.required,
+              message: `Поле ${field.label.toLowerCase()} обязательно`,
+            },
+          ]}
+        >
           <Input
             type={field.type || 'text'}
             name={field.name}
             value={formData[field.name] || ''}
             onChange={handleChange}
             placeholder={field.placeholder || ''}
-            required={field.required}
           />
-        </FormGroup>
+        </FormItem>
       ))}
-      <Button type="submit">Отправить</Button>
+      <FormItem>
+        <ButtonWrapper>
+          <Button type="primary" htmlType="submit">
+            Отправить
+          </Button>
+        </ButtonWrapper>
+      </FormItem>
     </Form>
   );
 };
